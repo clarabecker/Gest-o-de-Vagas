@@ -9,6 +9,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.clarabecker.gestao_vagas.modules.company.dto.AuthCompanyDTO;
 import com.clarabecker.gestao_vagas.modules.company.repositories.CompanyRepository;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import javax.naming.AuthenticationException;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException; 
@@ -41,6 +44,7 @@ public class AuthCompanyUseCase {
         }
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         var token = JWT.create().withIssuer("javagas")
+        .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
             .withSubject(company.getId().toString())
             .sign(algorithm);
             return token;
